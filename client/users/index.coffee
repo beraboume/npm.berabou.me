@@ -11,7 +11,9 @@ module.exports.client= ->
 
   resolve:
     user: ($state,$stateParams,$http)->
-      $http.get '/count/'+$stateParams.user
+      return $state.go 'top' unless $stateParams.user
+
+      $http.get '/users/'+$stateParams.user
       .then (result)->
         return $state.go 'top' if result.data is null
 
@@ -96,51 +98,78 @@ module.exports.client= ->
 # Expose for server
 module.exports.server= (app)->
   # Dependencies
+  Promise= require 'bluebird'
   npmCount= require 'npm-count'
   npmFetchAvatar= require 'npm-fetch-avatar'
   moment= require 'moment'
   
   fs= require 'fs'
+  getPath= (user)->
+    data: process.env.DB+user+'.json'
+    profile: process.env.DB+user+'.profile.json'
 
   # Setup api routes
-  app.get '/count/',(req,res)->
+  app.get '/users/',(req,res)->
     res.json null
-  app.get '/profile/:user',(req,res)->
+  app.get '/users/:user',(req,res)->
     user= req.params.user
-    userPath= process.env.DB+user+'.profile.json'
+    userPath= getPath user
 
+    profile= null
+    data= null
     try
-      data= require userPath
-      res.json data
-    catch
-      npmFetchAvatar user,(error,avatar)->
-        return res.status(500).end error.message if error
-
-        data= {user,avatar}
-
-        fs.writeFileSync userPath,JSON.stringify data
-
-        res.json data
-
-  app.get '/count/:user',(req,res)->
-    user= req.params.user
-    userPath= process.env.DB+user+'.json'
-
-    try
-      data= require userPath
+      profile= require userPath.profile
+      data= require userPath.data
 
       latest= npmCount.last data
       current= moment.utc().add(-1,'days').format 'YYYY-MM-DD'
       throw 'update' if latest < current
 
       res.json data
+
+    # Update user data and profile
     catch
       npmCount.fetch user,'all'
       .then (data)->
         return res.status(404).end() if Object.keys(data.packages).length is 0
 
-        fs.writeFileSync userPath,JSON.stringify data
+        fs.writeFileSync userPath.data,JSON.stringify data
 
-        res.json data
+        new Promise (resolve,reject)->
+          npmFetchAvatar user,(error,avatar)->
+            return reject error if error
+
+            resolve {user,avatar}
+        .then (profile)->
+          weekly_downloads= 0
+          weekly=
+            for name,days of data.packages
+              downloads= days.slice(-7).reduce (a,b)-> a+b
+              weekly_downloads+= downloads
+              {name,downloads}
+          weekly.sort (a,b)->
+            switch
+              when a.downloads > b.downloads then -1
+              when a.downloads < b.downloads then 1
+              else 0
+
+          profile.weekly_downloads= weekly_downloads
+          profile.weekly= weekly
+
+          fs.writeFileSync userPath.profile,JSON.stringify profile
+        .then ->
+          res.json data
+
       .catch (error)->
         return res.status(500).end error.message
+
+  app.get '/profile/:user',(req,res)->
+    user= req.params.user
+    userPath= getPath user
+
+    try
+      profile= require userPath.profile
+
+      res.json profile
+    catch
+      res.status(404).json({})

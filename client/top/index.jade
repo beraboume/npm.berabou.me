@@ -1,16 +1,32 @@
 .top
   md-content.md-whiteframe-z5
-    md-subheader.md-no-sticky Authors
     md-list
-      md-list-item.md-3-line(ng-repeat="user in users track by $index" ng-click="$state.go('users',{user:user})")
-        img.md-avatar(src="" ng-src-via-profile="{{user}}")
+      form(ng-submit="$state.go('users',{user:search})")
+        md-list-item(layout="row")
+          md-input-container(flex)
+            label Find author by name or packages...
+            input(ng-model='search')
+
+        button(style="display:none")
+
+      md-list-item.md-3-line(
+        ng-repeat="user in filtered= (users|filter:search|orderBy:'-weekly_downloads')"
+        ng-click="$state.go('users',user)"
+      )
+        img.md-avatar(ng-src="{{user.avatar}}")
         .md-list-item-text
-          h3 {{user}}
-          //- h4 30,000 download in 7 days
-          //- p minimist, mkdirp, string_decoder, wordwrap, optimist, concat-map, resolve, deep-equal, traverse, archy, more 700 modules...
+          h3(md-highlight-text="search") {{user.user}}
+          h4
+            span.count {{user.weekly_downloads | number:0}}
+            | download in 7 days
+          p.ellipsis(md-highlight-text="search") {{user.weekly|names}}
         
         md-icon.md-secondary.md-hue-3(
           aria-label="Show author page"
-          ng-click="location('https://www.npmjs.com/~'+user)"
+          ng-click="location('https://www.npmjs.com/~'+user.user)"
         )
           | person outline
+      
+      md-list-item(layout="row" ng-show="!filtered.length")
+        h3(flex="66") Notfound
+        img(ng-src="https://www.npmjs.com/static/images/not-found.png" width="100%")

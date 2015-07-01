@@ -21,12 +21,12 @@ module.exports.server= (app)->
     fs.readdir process.env.DB,(error,files)->
       return res.status(500).end error.message if error
 
-      # e.g: ['.gitignore','59naga.json','59naga.profile.json'] -> ['59naga']
+      # e.g: ['.gitignore','59naga.json','59naga.profile.json'] -> [profile,profile...]
       users=
         for file in files when file[0] isnt '.'
           strs= file.split '.'
-          continue if strs[1] is 'profile'
+          continue unless strs[1] is 'profile'
 
-          strs[0]
+          require process.env.DB+path.sep+file
       res.json users
   

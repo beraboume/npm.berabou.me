@@ -1,6 +1,29 @@
 .md-button
   text-transform: none
+
+.top
+  .md-list-item-text
+    >*
+      width 90%
       
+    .highlight
+      color white
+      background-color rgb(244,67,54)
+      // background red
+      
+    h4
+      .count
+        display inline-block
+        width 8em
+        text-align right
+        margin-right .25em
+    h4+p
+      padding-left 8em
+    .ellipsis
+      overflow:hidden
+      text-overflow:ellipsis
+      white-space:nowrap
+
 // Config angular-animate with animate.css
 main
   position relative
@@ -30,4 +53,3 @@ main
   bottom 10px
 
 @import './*/*.styl'
-      

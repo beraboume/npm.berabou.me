@@ -11,16 +11,22 @@ app= angular.module 'npm',[
 require './services/c3'
 require './services/ng-src-via-profile'
 
+app.filter 'names',->
+  (pkgs)->
+     (pkg.name for pkg in pkgs).join(', ')
+
 app.config ($mdThemingProvider)->
   $mdThemingProvider
     .theme 'default'
     .primaryPalette 'red'
     .accentPalette 'grey'
 
-app.config ($stateProvider)->
+app.config ($urlRouterProvider,$stateProvider)->
+  $urlRouterProvider.when('', '/')
+
   top= (require './top').client()
   $stateProvider.state 'top',
-    url: ''
+    url: '/'
     resolve: top.resolve
     views: top.views
     
@@ -29,10 +35,6 @@ app.config ($stateProvider)->
     url: '/:user'
     resolve: users.resolve
     views: users.views
-    
-  $stateProvider.state 'error',
-    url: '*path'
-    template: '400'
 
 app.run ($rootScope,$state,$window,$mdDialog,cfpLoadingBar,$mdToast)->
   $rootScope.$state= $state
@@ -47,14 +49,14 @@ app.run ($rootScope,$state,$window,$mdDialog,cfpLoadingBar,$mdToast)->
   $rootScope.$on '$stateChangeError',(event,toState,toParams,fromState,fromParams,error)->
     cfpLoadingBar.complete()
 
-    console.log error.statusText
-
-    $mdToast.show(
-      $mdToast.simple()
-      .content error.statusText
-      .position 'top left right' 
-      .hideDelay 2000
-    )
+    if error
+      console.log error
+      $mdToast.show(
+        $mdToast.simple()
+        .content error.statusText
+        .position 'top left right' 
+        .hideDelay 2000
+      )
 
     $state.go 'top'
 
@@ -64,6 +66,7 @@ app.run ($rootScope,$state,$window,$mdDialog,cfpLoadingBar,$mdToast)->
       parent: angular.element document.body
 
       focusOnOpen: false
+      clickOutsideToClose: true
 
       template: require './top/add.jade'
       controller: ($scope,$mdDialog)->
