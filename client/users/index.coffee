@@ -129,6 +129,9 @@ module.exports.server= (app)->
 
     # Update user data and profile
     catch
+      delete require.cache[userPath.profile]
+      delete require.cache[userPath.data]
+
       npmCount.fetch user,'all'
       .then (data)->
         return res.status(404).end() if Object.keys(data.packages).length is 0
