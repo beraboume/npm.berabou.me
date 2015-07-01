@@ -40,8 +40,6 @@ app.run ($rootScope,$state,$window,$mdDialog,cfpLoadingBar,$mdToast)->
     $window.location.href= url
     false
 
-  $rootScope.$on '$viewContentLoaded',->
-    $.material.init()
   $rootScope.$on '$stateChangeStart',->
     cfpLoadingBar.start()
   $rootScope.$on '$stateChangeSuccess',->
