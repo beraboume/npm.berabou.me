@@ -1,0 +1,33 @@
+.md-button
+  text-transform: none
+      
+// Config angular-animate with animate.css
+main
+  position relative
+  
+  margin 3rem
+  
+  ui-view.ng-enter
+    absolute 0 0 false 0
+    
+    animation fadeIn .5s
+    z-index 500
+  ui-view.ng-leave
+    absolute 0 0 false 0
+    
+    animation fadeOut .5s
+
+// Config angular-loading-bar
+#loading-bar .bar
+#loading-bar .peg
+  top auto
+  bottom 0
+  
+#loading-bar-spinner
+  top auto
+  left auto
+  right 10px
+  bottom 10px
+
+@import './*/*.styl'
+      

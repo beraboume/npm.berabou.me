@@ -1,0 +1,36 @@
+doctype
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width,initial-scale=1.0")
+
+    title npm downloads(α)
+  
+    script(src="pkgs.js")
+    script(src="index.js")
+    link(rel="stylesheet" href="index.css")
+  body(ng-app="npm")
+    md-content(layout="column" layout-fill)
+      md-toolbar
+        .md-toolbar-tools
+          md-button.md-icon-button(
+            aria-label='Add author'
+            ng-click="add($event)"
+          )
+            md-icon add_user
+          h2
+            md-button(ui-sref="top") Npm downloads（α）
+
+          span(flex)
+            
+          md-button(ng-href="https://github.com/59naga/npm.berabou.me")
+            | Fork me on github
+            md-icon device_hub
+      
+      main(style="position:relative")
+        ui-view
+
+    md-toolbar(layout="row")
+      span(flex)
+      md-button(ng-href="https://github.com/npm/download-counts")
+        | Powerd by npm/download-counts

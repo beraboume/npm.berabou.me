@@ -1,0 +1,53 @@
+.users(layout="column" layout-gt-sm="row")
+  md-content.md-whiteframe-z5(flex="50" flex-order-sm="2")
+    header
+      md-list
+        md-list-item.md-3-line(ng-click="location('https://www.npmjs.com/~'+user)")
+          img.md-avatar(src="" ng-src-via-profile="{{user}}")
+          .md-list-item-text
+            h3 {{user}}
+            h4 {{total.local | number:0}} download in 7 days
+            //- p minimist, mkdirp, string_decoder, wordwrap, optimist, concat-map, resolve, deep-equal, traverse, archy, more 700 modules...
+    
+      ul.pager
+        li
+          md-button.md-primary(ng-click="prev()") ＜
+        li
+          md-button.md-primary(ng-click="next()") ＞
+
+    table.table.table-striped.table-hover
+      thead
+        tr
+          th 
+          th {{begin}} 〜 {{end}}
+          td 7 days
+          td {{days}} days
+      tbody
+        tr(ng-repeat="pkg in pkgs track by $index")
+          th.lank {{$index+1}}
+          th
+            a(ng-href="https://npmjs.org/package/{{pkg.name}}") {{pkg.name}}
+          td {{pkg.local | number:0}}
+          td {{pkg.global | number:0}}
+      tfoot
+        tr
+          th
+          th Total
+          td {{total.local | number:0}}
+          td {{total.global | number:0}}
+
+    footer
+      h2 Raw download counts:
+
+      pre
+        | https://api.npmjs.org/downloads/range/{{begin}}:{{end}}/{{bulk}}
+
+  div(flex="5")
+  md-content(flex="45" flex-order-sm="1")
+    figure
+      h2.md-display-1 Top 10
+      section(c3="data" c3-type="type" c3-label="label")
+      
+      md-radio-group.md-primary(layout="row" layout-align="center center" ng-model='type')
+        md-radio-button(ng-repeat="type in types track by $index" value='{{type}}')
+          | {{type}}

@@ -1,0 +1,17 @@
+md-dialog
+  form(name="form" ng-submit="submit()")
+    md-toolbar
+      .md-toolbar-tools
+        h2 Add author
+        span(flex)
+        md-button.md-icon-button(type="button" ng-click="cancel(event)")
+          md-icon(aria-label='Close dialog') close
+    md-dialog-content
+      md-input-container
+        label Author name
+        input(ng-model='user' required autofocus)
+
+    .md-actions(layout='row')
+      span(flex)
+      md-button.md-primary(ng-disabled="!form.$valid")
+        | entry

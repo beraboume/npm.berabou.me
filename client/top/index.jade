@@ -1,0 +1,16 @@
+.top
+  md-content.md-whiteframe-z5
+    md-subheader.md-no-sticky Authors
+    md-list
+      md-list-item.md-3-line(ng-repeat="user in users track by $index" ng-click="$state.go('users',{user:user})")
+        img.md-avatar(src="" ng-src-via-profile="{{user}}")
+        .md-list-item-text
+          h3 {{user}}
+          //- h4 30,000 download in 7 days
+          //- p minimist, mkdirp, string_decoder, wordwrap, optimist, concat-map, resolve, deep-equal, traverse, archy, more 700 modules...
+        
+        md-icon.md-secondary.md-hue-3(
+          aria-label="Show author page"
+          ng-click="location('https://www.npmjs.com/~'+user)"
+        )
+          | person outline
