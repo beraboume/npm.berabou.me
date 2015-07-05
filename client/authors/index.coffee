@@ -45,7 +45,6 @@ module.exports.client= ->
           $scope.end= end
 
           console.log $scope.period,start,end,total,average,column if location.href.indexOf('?debug')>-1
-
           # Format the packages for $scope.packages
           packages=
             for pkg,id in calculated.packages

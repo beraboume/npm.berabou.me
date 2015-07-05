@@ -1,6 +1,4 @@
-# NpmBerabouMe(β)
-
-http://npm.berabou.me/
+# http://npm.berabou.me/
 
 > Calculator of the [npm downlodd counts](https://www.npmjs.com/)
 
@@ -24,7 +22,7 @@ $ npm install bower --global
 $ npm install onefile --global
 $ npm install --production
 $ npm start
-# Listen to http://localhost:59798/?debug
+# Listen to http://localhost:59798/
 ```
 
 ## TODO
