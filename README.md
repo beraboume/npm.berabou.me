@@ -1,6 +1,4 @@
-# NpmBerabouMe(β)
-
-http://npm.berabou.me/
+# http://npm.berabou.me/
 
 > Calculator of the [npm downlodd counts](https://www.npmjs.com/)
 
