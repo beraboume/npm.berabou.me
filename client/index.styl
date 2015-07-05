@@ -1,5 +1,27 @@
+md-theme-red= rgb(244,67,54)
+
+// Config angular-material
+section.periods
+  +media-query(all,max-width 600px)
+    display none
+md-menu.periods
+  +media-query(all,min-width 600px)
+    display none
+
 .md-button
   text-transform: none
+md-toolbar
+  a:hover
+    color white
+    
+md-list-item
+  >button
+    :hover
+      transition opacity .5s ease-out
+      opacity .75
+    h3
+      font-weight bold!important
+      color md-theme-red!important
 
 .top
   .md-list-item-text
@@ -8,7 +30,7 @@
       
     .highlight
       color white
-      background-color rgb(244,67,54)
+      background-color md-theme-red
       // background red
       
     h4
@@ -23,6 +45,36 @@
       overflow:hidden
       text-overflow:ellipsis
       white-space:nowrap
+
+.authors
+  .pager
+    margin-bottom 0
+
+  .md-whiteframe-z5
+    padding 2em
+    
+    a
+      color md-theme-red
+    
+    h4
+      text-align right
+  
+    header
+      .pager
+        text-align right
+        margin-top 0
+    
+    table
+      thead
+        td
+          min-width 6em
+
+      .lank
+        text-align right
+      th
+        text-align left
+      td
+        text-align right
 
 // Config angular-animate with animate.css
 main
@@ -39,6 +91,11 @@ main
     absolute 0 0 false 0
     
     animation fadeOut .5s
+
+// Config md-toast for priority than ui-view
+md-toast
+  position fixed
+  z-index 1000
 
 // Config angular-loading-bar
 #loading-bar .bar

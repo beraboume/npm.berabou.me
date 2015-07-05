@@ -2,7 +2,33 @@
 
 http://npm.berabou.me/
 
-> Comming soon
+> Calculator of the [npm downlodd counts](https://www.npmjs.com/)
+
+## Screenshots
+
+`./`
+
+![2015-07-06 01 31 56](https://cloud.githubusercontent.com/assets/1548478/8512569/e396825c-2383-11e5-951e-3877dcd02d2d.png)
+
+`./author`
+
+![2015-07-06 01 49 12](https://cloud.githubusercontent.com/assets/1548478/8512570/eb630dac-2383-11e5-8f22-793cd626b08d.png)
+
+# Listen on a localhost
+
+```bash
+$ git clone git://github.com/59naga/npm.berabou.me.git
+$ cd npm.berabou.me
+
+$ npm install bower --global
+$ npm install onefile --global
+$ npm install --production
+$ npm start
+# Listen to http://localhost:59798/?debug
+```
+
+## TODO
+* e2e test
 
 License
 ---

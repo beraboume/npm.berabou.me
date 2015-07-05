@@ -4,7 +4,7 @@ html(lang="en")
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width,initial-scale=1.0")
 
-    title npm downloads(β)
+    title npm downloads
   
     script(src="pkgs.js")
     script(src="index.js")
@@ -19,9 +19,47 @@ html(lang="en")
           )
             md-icon add_user
           h2
-            md-button(ui-sref="top") Npm downloads（β）
+            md-button(ui-sref="top") Npm downloads
+          
+          md-menu.periods
+            md-button.md-icon-button.md-accent(flex ng-click="$mdOpenMenu()")
+              md-icon(md-menu-origin) query_builder
+            md-menu-content(width="4")
+              md-menu-item
+                md-button(
+                  ng-class="{'md-raised':$root.period=='weekly'}"
+                  ng-click="$root.period='weekly'"
+                )
+                  | weekly
+              md-menu-item
+                md-button(
+                  ng-class="{'md-raised':$root.period=='monthly'}"
+                  ng-click="$root.period='monthly'"
+                )
+                  | monthly
+              md-menu-item
+                md-button(
+                  ng-class="{'md-raised':$root.period=='yearly'}"
+                  ng-click="$root.period='yearly'"
+                )
+                  | yearly
 
-          span(flex)
+          section.periods(flex layout='row' layout-align='center')
+            md-button.md-accent(
+              ng-class="{'md-raised':period=='weekly'}"
+              ng-click="period='weekly'"
+            )
+              | weekly
+            md-button.md-accent(
+              ng-class="{'md-raised':period=='monthly'}"
+              ng-click="period='monthly'"
+            )
+              | monthly
+            md-button.md-accent(
+              ng-class="{'md-raised':period=='yearly'}"
+              ng-click="period='yearly'"
+            )
+              | yearly
             
           md-button(ng-href="https://github.com/59naga/npm.berabou.me")
             | Fork me on github

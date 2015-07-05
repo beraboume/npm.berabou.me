@@ -1,7 +1,7 @@
 .top
   md-content.md-whiteframe-z5
     md-list
-      form(ng-submit="$state.go('users',{user:search})")
+      form(ng-submit="$state.go('authors',{author:search})")
         md-list-item(layout="row")
           md-input-container(flex)
             label Find author by name or packages...
@@ -10,20 +10,20 @@
         button(style="display:none")
 
       md-list-item.md-3-line(
-        ng-repeat="user in filtered= (users|filter:search|orderBy:'-weekly_downloads')"
-        ng-click="$state.go('users',user)"
+        ng-repeat="author in filtered= (authors|filter:search|orderBy:'-'+period+'.total')"
+        ng-click="$state.go('authors',author)"
       )
-        img.md-avatar(ng-src="{{user.avatar}}")
+        img.md-avatar(ng-src="{{author.avatar}}")
         .md-list-item-text
-          h3(md-highlight-text="search") {{user.user}}
+          h3(md-highlight-text="search") {{author.author}}
           h4
-            span.count {{user.weekly_downloads | number:0}}
-            | download in 7 days
-          p.ellipsis(md-highlight-text="search") {{user.weekly|names}}
+            span.count {{author[period].total | number:0}}
+            | download in {{period | toDays}} days
+          p.ellipsis(md-highlight-text="search") {{author[period].rank|names}}
         
         md-icon.md-secondary.md-hue-3(
           aria-label="Show author page"
-          ng-click="location('https://www.npmjs.com/~'+user.user)"
+          ng-click="location('https://www.npmjs.com/~'+author.author)"
         )
           | person outline
       
