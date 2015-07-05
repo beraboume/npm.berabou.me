@@ -9,11 +9,16 @@ app= angular.module 'npm',[
 ]
 
 require './services/c3'
-require './services/ng-src-via-profile'
 
 app.filter 'names',->
   (pkgs)->
-     (pkg.name for pkg in pkgs).join(', ')
+    (pkg.name for pkg in pkgs).join(', ')
+app.filter 'toDays',->
+  (period)->
+    switch period
+      when 'weekly' then 7
+      when 'monthly' then 30
+      when 'yearly' then 365
 
 app.config ($mdThemingProvider)->
   $mdThemingProvider
@@ -30,17 +35,18 @@ app.config ($urlRouterProvider,$stateProvider)->
     resolve: top.resolve
     views: top.views
     
-  users= (require './users').client()
-  $stateProvider.state 'users',
-    url: '/:user'
-    resolve: users.resolve
-    views: users.views
+  authors= (require './authors').client()
+  $stateProvider.state 'authors',
+    url: '/:author'
+    resolve: authors.resolve
+    views: authors.views
 
 app.run ($rootScope,$state,$window,$mdDialog,cfpLoadingBar,$mdToast)->
   $rootScope.$state= $state
   $rootScope.location= (url)->
     $window.location.href= url
     false
+  $rootScope.period= 'weekly'
 
   $rootScope.$on '$stateChangeStart',->
     cfpLoadingBar.start()
@@ -50,7 +56,7 @@ app.run ($rootScope,$state,$window,$mdDialog,cfpLoadingBar,$mdToast)->
     cfpLoadingBar.complete()
 
     if error
-      console.log error
+      console.error error
       $mdToast.show(
         $mdToast.simple()
         .content error.statusText
@@ -71,8 +77,8 @@ app.run ($rootScope,$state,$window,$mdDialog,cfpLoadingBar,$mdToast)->
       template: require './top/add.jade'
       controller: ($scope,$mdDialog)->
         $scope.submit= ->
-          user= $scope.user
-          $state.go 'users',{user}
+          author= $scope.author
+          $state.go 'authors',{author}
           $mdDialog.hide()
         $scope.cancel= (event)->
           $mdDialog.cancel()

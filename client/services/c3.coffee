@@ -26,7 +26,7 @@ app.directive 'c3',(c3js)->
           tick:
             format: (i)->
               day= scope.label[i] ? i
-              day.split('-').slice(-1)
+              day.split('-')?.slice(-1)
         y:
           label:
             text: 'Downloads',

@@ -1,13 +1,12 @@
-.users(layout="column" layout-gt-sm="row")
-  md-content.md-whiteframe-z5(flex="50" flex-order-sm="2")
+.authors(layout="column" layout-gt-sm="row")
+  md-content.md-whiteframe-z5(flex="50" flex-order-sm="2" style="min-width:30em")
     header
       md-list
-        md-list-item.md-3-line(ng-click="location('https://www.npmjs.com/~'+user)")
-          img.md-avatar(src="" ng-src-via-profile="{{user}}")
+        md-list-item.md-3-line(ng-click="location('https://www.npmjs.com/~'+author)")
+          img.md-avatar(ng-src="{{avatar}}")
           .md-list-item-text
-            h3 {{user}}
-            h4 {{total.local | number:0}} download in 7 days
-            //- p minimist, mkdirp, string_decoder, wordwrap, optimist, concat-map, resolve, deep-equal, traverse, archy, more 700 modules...
+            h3 {{author}}
+            h4 {{total.local | number:0}} download in {{length}} days
     
       ul.pager
         li
@@ -19,11 +18,11 @@
       thead
         tr
           th 
-          th {{begin}} 〜 {{end}}
-          td 7 days
+          th {{start}} 〜 {{end}}
+          td {{length}} days
           td {{days}} days
       tbody
-        tr(ng-repeat="pkg in pkgs track by $index")
+        tr(ng-repeat="pkg in packages")
           th.lank {{$index+1}}
           th
             a(ng-href="https://npmjs.org/package/{{pkg.name}}") {{pkg.name}}
@@ -39,8 +38,8 @@
     footer
       h2 Raw download counts:
 
-      pre
-        | https://api.npmjs.org/downloads/range/{{begin}}:{{end}}/{{bulk}}
+      pre(ng-repeat="query in queries track by $index")
+        | {{query}}
 
   div(flex="5")
   md-content(flex="45" flex-order-sm="1")

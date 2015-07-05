@@ -4,8 +4,9 @@
   "description": "Hosting your stats",
 
   "scripts": {
-    "start": "coffee index.coffee",
-    "build": "bower install && onefile -o client/pkgs"
+    "postinstall": "bower install --allow-root && onefile -o client/pkgs",
+
+    "start": "coffee index.coffee"
   },
   "config": {
     "ghooks": {
@@ -23,9 +24,10 @@
     "jade": "^1.11.0",
     "jstransformer-marked": "0.0.1",
     "kouto-swiss": "^0.11.12",
+    "lodash": "^3.10.0",
     "marked": "^0.3.3",
     "moment": "^2.10.3",
-    "npm-count": "^0.0.0-beta.4",
+    "npm-count": "^0.0.1-beta",
     "npm-fetch-avatar": "0.0.0",
     "stylus": "^0.51.1",
     "wanderer": "0.0.3-alpha.0"
@@ -37,7 +39,6 @@
   },
   "extraDependencies": {
     "bower": "^1.4.1",
-    "coffee-script": "^1.9.3",
     "onefile": "^0.3.0-beta.5"
   },
   
