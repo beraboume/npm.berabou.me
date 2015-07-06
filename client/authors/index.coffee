@@ -105,7 +105,7 @@ module.exports.client= ->
           $mdToast.showSimple
             content: 'update the '+$stateParams.author+'...'
             position: 'bottom left' 
-            hideDelay: 10000
+            hideDelay: 20000
       ,500
 
       $http.get '/authors/'+$stateParams.author
@@ -120,39 +120,36 @@ module.exports.client= ->
 # Expose for server
 module.exports.server= (app)->
   # Dependencies
-  Promise= require 'bluebird'
   npmCount= require 'npm-count'
-  npmFetchAvatar= Promise.promisify(require 'npm-fetch-avatar')
+  moment= require 'moment'
 
-  addSummary= require process.env.SERVER+'add-summary'
-
+  Promise= require 'bluebird'
   fs= Promise.promisifyAll(require 'fs')
-  
+
+  update= require process.env.SERVER+'update'
+
   # Setup api routes
   app.get '/authors/:author',(req,res)->
     author= req.params.author
     authorPath= process.env.DB+author+'.json'
 
-    npmCount.fetchDays()
-    .then (days)->
-      current= days[0]
+    promise=
+      if fs.existsSync authorPath
+        fs.readFileAsync authorPath,'utf8'
+        .then (data)->
+          JSON.parse data
+      else
+        Promise.resolve null
 
-      promise=
-        if fs.existsSync authorPath
-          fs.readFileAsync authorPath,'utf8'
-          .then (data)->
-            JSON.parse data
-        else
-          Promise.resolve null
-
-      promise
-      .then (normalized)->
-        # get last-day of downloads
-        end= normalized?.days.slice(-1)[0]
-        if end >= current
-          res.json normalized
-        else
-          res.redirect '/authors/'+author+'/update'
+    promise
+    .then (normalized)->
+      # get last-day of downloads
+      end= normalized?.days.slice(-1)[0]
+      current= moment.utc().add(-1,'days').format 'YYYY-MM-DD'
+      if end >= current
+        res.json normalized
+      else
+        res.redirect '/authors/'+author+'/update'
 
     .catch (error)->
       res.status(500).json error?.message ? error
@@ -161,27 +158,7 @@ module.exports.server= (app)->
     author= req.params.author
     authorPath= process.env.DB+author+'.json'
 
-    npmCount.fetch author,'all'
-    .then (downloads)->
-      if Object.keys(downloads).length
-        npmCount.normalize downloads
-      else
-        Promise.resolve null
-
-    .then (normalized)->
-      return null unless normalized
-
-      normalized.author= author
-
-      npmFetchAvatar author
-      .then (avatar)->
-        normalized.avatar= avatar
-
-        normalized= addSummary normalized
-        fs.writeFileAsync authorPath,(JSON.stringify normalized)
-        .then ->
-          normalized
-
+    update author,authorPath
     .then (normalized)->
       if normalized
         res.json normalized

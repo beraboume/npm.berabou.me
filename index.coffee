@@ -1,14 +1,10 @@
 # Dependencies
+env= require './server/env'
 app= require './server/express'
+cronjob= require 'cronjob'
 wanderer= require 'wanderer'
 
 path= require 'path'
-
-# Environment
-process.env.ROOT= __dirname+path.sep
-process.env.DB= __dirname+path.sep+'db'+path.sep
-process.env.SERVER= __dirname+path.sep+'server'+path.sep
-process.env.CLIENT= __dirname+path.sep+'client'+path.sep
 
 # Setup routes
 files= wanderer.seekSync './client/**/*.coffee'
@@ -24,7 +20,7 @@ app.use (req,res,next)->
 
 # Boot if "coffee index.coffee"
 if module.parent is null
-  port= process.env.PORT or 59798
+  port= env.PORT or 59798
   app.listen port,->
     console.log 'Listen to http://localhost:%s/',port
 

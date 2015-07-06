@@ -18,7 +18,6 @@ module.exports.client= ->
 module.exports.server= (app)->
   # Dependencies
   fs= require 'fs'
-  path= require 'path'
 
   app.get '/authors',(req,res)->
     fs.readdir process.env.DB,(error,files)->
@@ -29,7 +28,7 @@ module.exports.server= (app)->
         for file in files when file[0] isnt '.'
           strs= file.split '.'
 
-          authorData= require process.env.DB+path.sep+file
+          authorData= require process.env.DB+file
 
           # disuse at ./top
           delete authorData.days

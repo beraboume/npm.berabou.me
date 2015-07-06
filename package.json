@@ -20,6 +20,7 @@
     "browserify-plain-jade": "^0.2.2",
     "coffee-script": "^1.9.3",
     "coffeeify": "^1.1.0",
+    "cron": "^1.0.9",
     "express": "^4.13.0",
     "jade": "^1.11.0",
     "jstransformer-marked": "0.0.1",
@@ -30,6 +31,7 @@
     "npm-count": "^0.0.1-beta.2",
     "npm-fetch-avatar": "0.0.0",
     "stylus": "^0.51.1",
+    "throat": "^2.0.2",
     "wanderer": "0.0.3-alpha.0"
   },
   "devDependencies": {
