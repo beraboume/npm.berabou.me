@@ -11,35 +11,41 @@ path= require 'path'
 
 cronJob= new CronJob
   cronTime: '0 0 1 * * *' # midnight 1 o'clock everyday
-  onTick: ->
-    fs.readdirAsync env.DB
-    .then (files)->
-      begin= Date.now()
+  onTick: job
 
-      success= 0
-      failure= 0
-      authors=
-        for file,i in files when file[0] isnt '.'
-          author= file.split('.')[0]
-          authorPath= env.DB+file
+# Directly execute if "coffee cronjob.coffee"
+if module.parent is null
+  process.nextTick -> job()
+else
+  cronJob.start()
 
-          {author,authorPath}
+job= ->
+  fs.readdirAsync env.DB
+  .then (files)->
+    begin= Date.now()
 
-      Promise.all authors.map throat 15,({author,authorPath},i)->
-        # console.log '%s. Updating the %s to %s',('00'+i).slice(-3),author,(path.relative process.cwd(),authorPath)
+    success= 0
+    failure= 0
+    authors=
+      for file,i in files when file[0] isnt '.'
+        author= file.split('.')[0]
+        authorPath= env.DB+file
 
-        update author,authorPath
-        .then (normalized)->
-          success++
-          # console.log '%s. Success the %s',('00'+i).slice(-3),author
-        .catch (error)->
-          failure++
-          # console.log '%s. Failure the %s',('00'+i).slice(-3),author,error
+        {author,authorPath}
 
-      .then ->
-        console.error 'Finish. %s success %s failure %s authors. %s sec',
-          success, failure, authors.length, (Date.now()-begin)/1000
+    Promise.all authors.map throat 15,({author,authorPath},i)->
+      # console.log '%s. Updating the %s to %s',('00'+i).slice(-3),author,(path.relative process.cwd(),authorPath)
 
-cronJob.start()
+      update author,authorPath
+      .then (normalized)->
+        success++
+        # console.log '%s. Success the %s',('00'+i).slice(-3),author
+      .catch (error)->
+        failure++
+        # console.log '%s. Failure the %s',('00'+i).slice(-3),author,error
+
+    .then ->
+      console.error 'Finish. %s success %s failure %s authors. %s sec',
+        success, failure, authors.length, (Date.now()-begin)/1000
 
 module.exports= cronJob
