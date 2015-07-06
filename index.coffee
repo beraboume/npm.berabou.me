@@ -1,7 +1,7 @@
 # Dependencies
 env= require './server/env'
 app= require './server/express'
-cronjob= require 'cronjob'
+cronjob= require './server/cronjob'
 wanderer= require 'wanderer'
 
 path= require 'path'
