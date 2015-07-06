@@ -12,6 +12,7 @@ module.exports.client= ->
           'bar'
           'area'
           'pie'
+          'scatter'
         ]
         $scope.author= author.author
         $scope.avatar= author.avatar

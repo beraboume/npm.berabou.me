@@ -6,19 +6,28 @@
           md-input-container(flex)
             label Find author by name or packages...
             input(ng-model='search')
+          
+          md-input-container.md-secondary(layout="row")
+            md-select(flex ng-model='sort' placeholder='Sort')
+              md-option(value='total') total
+              md-option(value='average') average
+
+            md-select(flex ng-model='direction' placeholder='Direc')
+              md-option(value='-') desc
+              md-option(value='') asc
 
         button(style="display:none")
 
       md-list-item.md-3-line(
-        ng-repeat="author in filtered= (authors|filter:search|orderBy:'-'+period+'.total')"
+        ng-repeat="author in filtered= (authors|filter:search|orderBy:direction+period+'.'+sort)"
         ng-click="$state.go('authors',author)"
       )
         img.md-avatar(ng-src="{{author.avatar}}")
         .md-list-item-text
           h3(md-highlight-text="search") {{author.author}}
           h4
-            span.count {{author[period].total | number:0}}
-            | download in {{period | toDays}} days
+            span.count {{author[period][sort] | number:0}}
+            | {{sort | toDescription}} in {{period | toDays}} days
           p.ellipsis(md-highlight-text="search") {{author[period].rank|names}}
         
         md-icon.md-secondary.md-hue-3(

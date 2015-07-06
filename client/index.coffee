@@ -19,6 +19,12 @@ app.filter 'toDays',->
       when 'weekly' then 7
       when 'monthly' then 30
       when 'yearly' then 365
+app.filter 'toDescription',->
+  (sort)->
+    switch sort
+      when 'total' then 'download'
+      when 'average' then 'average'
+      else sort
 
 app.config ($mdThemingProvider)->
   $mdThemingProvider
