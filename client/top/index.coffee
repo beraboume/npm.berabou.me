@@ -12,6 +12,8 @@ module.exports.client= ->
 
       controller: ($scope,authors)->
         $scope.search= '' # fixed highlighted the 'undefind'
+        $scope.sort= 'total'
+        $scope.direction= '-'
         $scope.authors= authors
 
 # Expose for server
@@ -28,7 +30,10 @@ module.exports.server= (app)->
         for file in files when file[0] isnt '.'
           strs= file.split '.'
 
-          authorData= require process.env.DB+file
+          try
+            authorData= require process.env.DB+file
+          catch
+            continue
 
           # disuse at ./top
           delete authorData.days
