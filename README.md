@@ -1,6 +1,6 @@
-# http://npm.berabou.me/
+# [npm.berabou.me](http://npm.berabou.me/)
 
-> Calculator of the [npm downlodd counts](https://www.npmjs.com/)
+> the [Npm Stats Calculator](https://github.com/59naga/npm-count)
 
 ## Screenshots
 
@@ -24,9 +24,6 @@ $ npm install --production
 $ npm start
 # Listen to http://localhost:59798/
 ```
-
-## TODO
-* e2e test
 
 License
 ---
