@@ -1,49 +1,35 @@
 {
   "name": "npm.berabou.me",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Hosting your stats",
-
   "scripts": {
     "postinstall": "bower install --allow-root && onefile -o client/pkgs",
-
     "start": "coffee index.coffee"
   },
-  "config": {
-    "ghooks": {
-      "pre-commit": "npm test"
-    }
-  },
-
   "dependencies": {
-    "bluebird": "^2.9.30",
-    "browserify-middleware": "git://github.com/59naga/browserify-middleware.git",
+    "bluebird": "^3.3.0",
+    "browserify-middleware": "^7.0.0",
     "browserify-plain-jade": "^0.2.2",
     "coffee-script": "^1.9.3",
-    "coffeeify": "^1.1.0",
+    "coffeeify": "^2.0.1",
     "cron": "^1.0.9",
     "express": "^4.13.0",
     "jade": "^1.11.0",
-    "jstransformer-marked": "0.0.1",
+    "jstransformer-marked": "^1.0.1",
     "kouto-swiss": "^0.11.12",
-    "lodash": "^3.10.0",
+    "lodash": "^4.3.0",
     "marked": "^0.3.3",
     "moment": "^2.10.3",
-    "npm-count": "^0.0.1-beta.2",
+    "npm-count": "^0.0.1",
     "npm-fetch-avatar": "0.0.0",
-    "stylus": "^0.51.1",
+    "stylus": "^0.53.0",
     "throat": "^2.0.2",
     "wanderer": "0.0.3-alpha.0"
   },
   "devDependencies": {
-    "jasminetea": "^0.2.1",
-    "object-parser-cli": "0.0.1-alpha.1",
-    "supertest": "^1.0.1"
-  },
-  "extraDependencies": {
     "bower": "^1.4.1",
-    "onefile": "^0.3.0-beta.5"
+    "onefile": "^0.3.3"
   },
-  
   "keywords": [
     "npm",
     "stats",

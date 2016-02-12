@@ -1,15 +1,15 @@
 {
   "name": "npm.berabou.me",
   "dependencies": {
-    "animate.css": "~3.3.0",
-    "bootstrap": "~3.3.5",
-    "c3": "~0.4.10",
+    "animate.css": "3.3.0",
+    "bootstrap": "3.3.5",
+    "c3": "0.4.10",
     
-    "npm-count": "~0.0.1-beta.2",
+    "npm-count": "0.0.1",
     
-    "angular-material-icon": "~2.0.0",
-    "angular-ui-router": "~0.2.15",
-    "angular-loading-bar": "~0.8.0"
+    "angular-ui-router": "0.2.15",
+    "angular-loading-bar": "0.8.0",
+    "angular-material": "0.10.0"
   },
   "overrides": {
     "bootstrap": {

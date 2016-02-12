@@ -9,16 +9,10 @@ throat= require 'throat'
 fs= Promise.promisifyAll require 'fs'
 path= require 'path'
 
-cronJob= new CronJob
-  cronTime: '0 0 1 * * *' # midnight 1 o'clock everyday
-  onTick: job
+# Environment
+cronTime= '0 0 1 * * *' # midnight 1 o'clock everyday
 
-# Directly execute if "coffee cronjob.coffee"
-if module.parent is null
-  process.nextTick -> job()
-else
-  cronJob.start()
-
+# Private
 job= ->
   fs.readdirAsync env.DB
   .then (files)->
@@ -45,7 +39,18 @@ job= ->
         # console.log '%s. Failure the %s',('00'+i).slice(-3),author,error
 
     .then ->
-      console.error 'Finish. %s success %s failure %s authors. %s sec',
+      console.log 'Finish. %s success %s failure %s authors. %s sec',
         success, failure, authors.length, (Date.now()-begin)/1000
+
+# Set cronjob
+cronJob= new CronJob
+  cronTime: cronTime
+  onTick: job
+
+# Directly execute if "coffee cronjob.coffee"
+if module.parent is null
+  process.nextTick -> job()
+else
+  cronJob.start()
 
 module.exports= cronJob

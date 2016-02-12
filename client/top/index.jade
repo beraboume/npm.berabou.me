@@ -5,7 +5,7 @@
         md-list-item(layout="row")
           md-input-container(flex)
             label Find author by name or packages...
-            input(ng-model='search')
+            input(ng-model='search' ng-model-options="{debounce:500}")
           
           md-input-container.md-secondary(layout="row")
             md-select(flex ng-model='sort' placeholder='Sort')
@@ -28,7 +28,7 @@
           h4
             span.count {{author[period][sort] | number:0}}
             | {{sort | toDescription}} in {{period | toDays}} days
-          p.ellipsis(md-highlight-text="search") {{author[period].rank|names}}
+          p(md-highlight-text="search") {{author[period].rank|names}}
         
         md-icon.md-secondary.md-hue-3(
           aria-label="Show author page"
@@ -38,4 +38,4 @@
       
       md-list-item(layout="row" ng-show="!filtered.length")
         h3(flex="66") Notfound
-        img(ng-src="https://www.npmjs.com/static/images/not-found.png" width="100%")
+        img(flex="33" ng-src="https://www.npmjs.com/static/images/not-found.png" width="100%")
